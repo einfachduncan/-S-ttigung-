@@ -1,0 +1,9 @@
+{
+  "key.category.saturationplus": "SaturationPlus",
+  "key.saturationplus.toggle": "Toggle SaturationPlus",
+  "key.saturationplus.decrease": "Decrease saturation",
+  "key.saturationplus.increase": "Increase saturation",
+  "message.saturationplus.enabled": "SaturationPlus enabled",
+  "message.saturationplus.disabled": "SaturationPlus disabled",
+  "message.saturationplus.intensity": "Saturation intensity: %s%%"
+}
