@@ -11,7 +11,6 @@ import org.lwjgl.glfw.GLFW;
 public final class SaturationPlusClient {
     private static final String CATEGORY = "key.category.saturationplus";
     private static boolean initialized;
-    private static boolean enabled = true;
 
     private static final KeyBinding TOGGLE_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.saturationplus.toggle",
@@ -41,14 +40,13 @@ public final class SaturationPlusClient {
         initialized = true;
 
         ConfigManager.load();
-        enabled = ConfigManager.isEffectEnabled();
 
         ClientTickEvents.END_CLIENT_TICK.register(SaturationPlusClient::onClientTick);
     }
 
     private static void onClientTick(MinecraftClient client) {
         while (TOGGLE_KEY.wasPressed()) {
-            enabled = !enabled;
+            boolean enabled = !ConfigManager.isEffectEnabled();
             ConfigManager.setEffectEnabled(enabled);
             ConfigManager.save();
             sendActionBar(client, Text.translatable(
