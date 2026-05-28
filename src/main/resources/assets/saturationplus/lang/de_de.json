@@ -1,0 +1,9 @@
+{
+  "key.category.saturationplus": "SaturationPlus",
+  "key.saturationplus.toggle": "SaturationPlus umschalten",
+  "key.saturationplus.decrease": "Sättigung verringern",
+  "key.saturationplus.increase": "Sättigung erhöhen",
+  "message.saturationplus.enabled": "SaturationPlus aktiviert",
+  "message.saturationplus.disabled": "SaturationPlus deaktiviert",
+  "message.saturationplus.intensity": "Sättigungsintensität: %s%%"
+}

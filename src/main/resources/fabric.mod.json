@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "saturationplus",
+  "version": "${version}",
+  "name": "SaturationPlus",
+  "description": "Boosts Minecraft color saturation with a lightweight post-processing effect.",
+  "authors": [
+    "einfachduncan"
+  ],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "de.einfachduncan.saturationplus.SaturationPlusMod"
+    ],
+    "client": [
+      "de.einfachduncan.saturationplus.client.SaturationPlusClient"
+    ]
+  },
+  "mixins": [
+    "saturationplus.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
