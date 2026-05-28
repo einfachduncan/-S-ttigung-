@@ -1,5 +1,6 @@
 package de.einfachduncan.saturationplus;
 
+import de.einfachduncan.saturationplus.client.SaturationPlusClient;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ public final class SaturationPlusMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        SaturationPlusClient.initialize();
         LOGGER.info("SaturationPlus initialized.");
     }
 }
