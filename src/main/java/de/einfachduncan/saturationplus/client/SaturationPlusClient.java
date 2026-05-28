@@ -1,18 +1,16 @@
 package de.einfachduncan.saturationplus.client;
 
 import de.einfachduncan.saturationplus.config.ConfigManager;
-import de.einfachduncan.saturationplus.effect.SaturationManager;
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
 
-public final class SaturationPlusClient implements ClientModInitializer {
+public final class SaturationPlusClient {
     private static final String CATEGORY = "key.category.saturationplus";
+    private static boolean initialized;
 
     private static final KeyBinding TOGGLE_KEY = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "key.saturationplus.toggle",
@@ -32,21 +30,27 @@ public final class SaturationPlusClient implements ClientModInitializer {
             CATEGORY
     ));
 
-    @Override
-    public void onInitializeClient() {
-        ConfigManager.load();
-        SaturationManager.applyConfig();
-
-        ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
+    private SaturationPlusClient() {
     }
 
-    private void onClientTick(MinecraftClient client) {
+    public static void initialize() {
+        if (initialized) {
+            return;
+        }
+        initialized = true;
+
+        ConfigManager.load();
+
+        ClientTickEvents.END_CLIENT_TICK.register(SaturationPlusClient::onClientTick);
+    }
+
+    private static void onClientTick(MinecraftClient client) {
         while (TOGGLE_KEY.wasPressed()) {
-            SaturationManager.toggle(client);
-            ConfigManager.setEffectEnabled(SaturationManager.isEnabled());
+            boolean enabled = !ConfigManager.isEffectEnabled();
+            ConfigManager.setEffectEnabled(enabled);
             ConfigManager.save();
             sendActionBar(client, Text.translatable(
-                    SaturationManager.isEnabled() ? "message.saturationplus.enabled" : "message.saturationplus.disabled"
+                    enabled ? "message.saturationplus.enabled" : "message.saturationplus.disabled"
             ));
         }
 
@@ -59,15 +63,14 @@ public final class SaturationPlusClient implements ClientModInitializer {
         }
     }
 
-    private void adjustSaturation(MinecraftClient client, float delta) {
-        float newValue = MathHelper.clamp(ConfigManager.getSaturationIntensity() + delta, 0.0f, 2.0f);
+    private static void adjustSaturation(MinecraftClient client, float delta) {
+        float newValue = Math.clamp(ConfigManager.getSaturationIntensity() + delta, 0.0f, 2.0f);
         ConfigManager.setSaturationIntensity(newValue);
         ConfigManager.save();
-        SaturationManager.applyConfig();
         sendActionBar(client, Text.translatable("message.saturationplus.intensity", Math.round(newValue * 100.0f)));
     }
 
-    private void sendActionBar(MinecraftClient client, Text message) {
+    private static void sendActionBar(MinecraftClient client, Text message) {
         if (client.player != null) {
             client.player.sendMessage(message, true);
         }

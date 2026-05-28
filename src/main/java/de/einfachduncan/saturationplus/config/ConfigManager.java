@@ -1,7 +1,6 @@
 package de.einfachduncan.saturationplus.config;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.math.MathHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,9 +14,6 @@ public final class ConfigManager {
 
     private static boolean effectEnabled = true;
     private static float saturationIntensity = 1.3f;
-    private static boolean bloomEnabled = false;
-    private static float bloomIntensity = 0.15f;
-    private static float contrastBoost = 1.05f;
 
     private ConfigManager() {
     }
@@ -33,9 +29,6 @@ public final class ConfigManager {
             properties.load(in);
             effectEnabled = Boolean.parseBoolean(properties.getProperty("effect_enabled", Boolean.toString(effectEnabled)));
             saturationIntensity = clamp(parseFloat(properties.getProperty("saturation_intensity"), saturationIntensity), 0.0f, 2.0f);
-            bloomEnabled = Boolean.parseBoolean(properties.getProperty("bloom_enabled", Boolean.toString(bloomEnabled)));
-            bloomIntensity = clamp(parseFloat(properties.getProperty("bloom_intensity"), bloomIntensity), 0.0f, 1.0f);
-            contrastBoost = clamp(parseFloat(properties.getProperty("contrast_boost"), contrastBoost), 0.5f, 2.0f);
         } catch (IOException ignored) {
             save();
         }
@@ -47,9 +40,6 @@ public final class ConfigManager {
             Properties properties = new Properties();
             properties.setProperty("effect_enabled", Boolean.toString(effectEnabled));
             properties.setProperty("saturation_intensity", Float.toString(saturationIntensity));
-            properties.setProperty("bloom_enabled", Boolean.toString(bloomEnabled));
-            properties.setProperty("bloom_intensity", Float.toString(bloomIntensity));
-            properties.setProperty("contrast_boost", Float.toString(contrastBoost));
             try (OutputStream out = Files.newOutputStream(CONFIG_FILE)) {
                 properties.store(out, "SaturationPlus configuration");
             }
@@ -66,7 +56,7 @@ public final class ConfigManager {
     }
 
     private static float clamp(float value, float min, float max) {
-        return MathHelper.clamp(value, min, max);
+        return Math.clamp(value, min, max);
     }
 
     public static boolean isEffectEnabled() {
@@ -83,17 +73,5 @@ public final class ConfigManager {
 
     public static void setSaturationIntensity(float saturationIntensity) {
         ConfigManager.saturationIntensity = clamp(saturationIntensity, 0.0f, 2.0f);
-    }
-
-    public static boolean isBloomEnabled() {
-        return bloomEnabled;
-    }
-
-    public static float getBloomIntensity() {
-        return bloomIntensity;
-    }
-
-    public static float getContrastBoost() {
-        return contrastBoost;
     }
 }
