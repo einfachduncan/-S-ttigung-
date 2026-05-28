@@ -3,6 +3,7 @@
   "package": "de.einfachduncan.saturationplus.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "GameRendererAccessor",
     "GameRendererMixin",
     "WorldRendererMixin"
   ],
