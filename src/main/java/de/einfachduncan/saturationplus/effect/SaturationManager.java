@@ -2,6 +2,7 @@ package de.einfachduncan.saturationplus.effect;
 
 import de.einfachduncan.saturationplus.SaturationPlusMod;
 import de.einfachduncan.saturationplus.config.ConfigManager;
+import de.einfachduncan.saturationplus.mixin.GameRendererAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 
@@ -46,7 +47,7 @@ public final class SaturationManager {
         }
 
         try {
-            client.gameRenderer.loadPostProcessor(POST_SHADER);
+            ((GameRendererAccessor) client.gameRenderer).invokeLoadPostProcessor(POST_SHADER);
             shaderLoaded = true;
         } catch (Exception ex) {
             SaturationPlusMod.LOGGER.warn("Could not load saturation post shader", ex);
